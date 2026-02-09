@@ -3,7 +3,7 @@ import assets, { userDummyData } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ selectedUser, setSelectedUser }) => {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   return (
     <div
       className={`bg-[#8185B2]/10 h-full p-5 rounded-r-xl overflow-y-scroll text-white ${selectedUser ? "max-md:hidden" : ""} `}
@@ -41,7 +41,11 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
 
       <div className="flex flex-col">
         {userDummyData.map((user, index) => (
-          <div onClick={()=>{setSelectedUser(user)}} key={index}
+          <div
+            onClick={() => {
+              setSelectedUser(user);
+            }}
+            key={index}
             className={`relative flex items-center gap-2 p-2 pl-4 rounded cursor-pointer max-sm:text-sm ${selectedUser?._id === user._id && "bg-[#282142]/50"}`}
           >
             <img
