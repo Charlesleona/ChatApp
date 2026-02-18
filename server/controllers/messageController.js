@@ -31,3 +31,49 @@ export const getUsersForSidebar = async (req, res) => {
     });
   }
 };
+
+// Get all message for selected user
+
+export const getMessages = async (req, res) => {
+  try {
+    const { id: selectedUSerId } = req.params;
+    const myId = req.user._id;
+    const messages = await Message.find({
+      $or: [
+        { senderId: myId, receiverId: selectedUSerId },
+        { senderId: selectedUSerId, receiverId: myId },
+      ],
+    });
+    await Message.updateMany(
+      {
+        senderId: selectedUSerId,
+        receiverId: myId,
+      },
+      { seen: true },
+    );
+    res.json({ success: true, messages });
+  } catch (error) {
+    console.log(error.message);
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// api to mark message as seen
+export const markMessageAsSeen = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Message.findByIdAndUpdate(id, { seen: true });
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
