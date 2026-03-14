@@ -11,7 +11,7 @@ const App = () => {
   console.log("authUser:", authUser);
   return (
     <div
-      className="bg-[url('./src/assets/bgImage.svg')]
+      className="bg-[url('/bgImage.svg')]
     bg-contain"
     >
       <Toaster />
