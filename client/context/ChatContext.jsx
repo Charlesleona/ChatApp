@@ -29,9 +29,9 @@ export const ChatProvider = ({ children }) => {
   // function to get message for selected user
   const getMessages = async (userId) => {
     try {
-      const { data } = await axios.get(`/api/messages/${userId}`);
+      const { data } = await axios.get(`/api/message/${userId}`);
       if (data.success) {
-        setMessages(data.message);
+        setMessages(data.messages);
       }
     } catch (error) {
       toast.error(error.message);
@@ -42,7 +42,7 @@ export const ChatProvider = ({ children }) => {
   const sendMessage = async (messageData) => {
     try {
       const { data } = await axios.post(
-        `/api/messages/${selectedUser._id}`,
+        `/api/message/send/${selectedUser._id}`,
         messageData,
       );
       if (data.success) {
@@ -62,7 +62,7 @@ export const ChatProvider = ({ children }) => {
       if (selectedUser && newMessage.senderId === selectedUser._id) {
         newMessage.seen = true;
         setMessages((prevMessage) => [...prevMessage, newMessage]);
-        axios.put(`/api/messages/mark/${newMessage._id}`);
+        axios.put(`/api/message/mark/${newMessage._id}`);
       } else {
         setUnseenMessages((prevUnseenMessages) => ({
           ...prevUnseenMessages,
@@ -89,8 +89,8 @@ export const ChatProvider = ({ children }) => {
     users,
     selectedUser,
     getUsers,
-    setMessages,
     sendMessage,
+    getMessages,
     setSelectedUser,
     unseenMessages,
     setUnseenMessages,
